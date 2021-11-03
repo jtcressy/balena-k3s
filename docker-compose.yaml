@@ -54,6 +54,7 @@ services:
     privileged: true
     network_mode: host
     command:
+      - --hostname=balena-${RESIN_APP_NAME}-${RESIN_DEVICE_NAME_AT_INIT}
       - --accept-dns
       - --accept-routes
     cap_add:
