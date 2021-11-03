@@ -47,11 +47,15 @@ services:
   #   - K3S_TOKEN=${K3S_TOKEN:?err}
   
   tailscale:
-    image: ghcr.io/jauderho/tailscale:v1.16.2
-    # command:
-    #   - /usr/local/bin/tailcaled
+    build:
+      dockerfile: ./tailscale/Dockerfile.template
+      context: ./tailscale
     restart: always
     privileged: true
+    network_mode: host
+    command:
+      - --accept-dns
+      - --accept-routes
     cap_add:
       - NET_ADMIN
     # sysctls:
@@ -63,9 +67,7 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     environment:
-      - ACCEPTDNS=true
-      - ACCEPTROUTES=true
-      - AUTHKEY=${TAILSCALE_AUTHKEY:?err}
+      - TAILSCALE_KEY=${TAILSCALE_AUTHKEY:?err}
 
 volumes:
   k3s-server: {}
