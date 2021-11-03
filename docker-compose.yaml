@@ -50,6 +50,8 @@ services:
     image: ghcr.io/jauderho/tailscale:v1.16.2
     command:
       - /usr/local/bin/tailcaled
+    restart: always
+    privileged: true
     cap_add:
       - NET_ADMIN
     # sysctls:
