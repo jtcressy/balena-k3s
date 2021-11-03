@@ -6,7 +6,7 @@ if [ -z "${TAILSCALE_KEY}" ]; then
     exit 1
 fi
 
-tailscaled --fake &
+tailscaled &
 sleep 5
 tailscale up -authkey "${TAILSCALE_KEY}" $@
 
