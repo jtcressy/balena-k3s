@@ -47,7 +47,7 @@ services:
     - K3S_TOKEN=${K3S_TOKEN:?err}
   
   tailscale:
-    image: jauderho/tailscale:latest
+    image: ghcr.io/jauderho/tailscale:v1.16.2
     command:
       - tailcaled
     cap_add:
