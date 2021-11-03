@@ -5,7 +5,7 @@ version: '2'
 services:
 
   server:
-    image: "rancher/k3s:${K3S_VERSION:-latest}"
+    image: "rancher/k3s:latest"
     command: server
     tmpfs:
     - /run
@@ -31,7 +31,7 @@ services:
     - 443:443    # Ingress controller port 443
 
   agent:
-    image: "rancher/k3s:${K3S_VERSION:-latest}"
+    image: "rancher/k3s:latest"
     tmpfs:
     - /run
     - /var/run
@@ -50,12 +50,12 @@ services:
     image: jauderho/tailscale:latest
     command:
       - tailcaled
-    # cap_add:
-    #   - NET_ADMIN
-    # sysctls:
-    #   - net.ipv4.ip_forward=1
-    #   - net.ipv4.conf.all.src_valid_mark=1
-    #   - net.ipv6.conf.all.forwarding=1
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv4.ip_forward=1
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.all.forwarding=1
     volumes:
       - tailscale-config:/var/lib/tailscale
     devices:
