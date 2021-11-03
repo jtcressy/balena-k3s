@@ -10,7 +10,9 @@ ENTRYPOINT ["/bin/sh"]
 ################################################
 FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine-golang:run
 
-RUN apk --no-cache add tini
+RUN apk add --no-cache tini ca-certificates iptables ip6tables iproute2 \
+	&& update-ca-certificates \
+  && rm -rf /var/cache/apk/*
 COPY init /init
 COPY --from=BUILD /go/bin /go/bin
 
