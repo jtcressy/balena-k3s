@@ -24,7 +24,7 @@ services:
     volumes:
     - k3s-server:/var/lib/rancher/k3s
     # This is just so that we get the kubeconfig file out
-    - /tmp/kubeconfig:/output
+    - kubeconfig:/output
     ports:
     - 6443:6443  # Kubernetes API Server
     - 80:80      # Ingress controller port 80
@@ -46,24 +46,25 @@ services:
     - K3S_URL=https://server:6443
     - K3S_TOKEN=${K3S_TOKEN:?err}
   
-  # tailscale:
-  #   image: jauderho/tailscale:latest
-  #   command:
-  #     - tailcaled
-  #   cap_add:
-  #     - NET_ADMIN
-  #   sysctls:
-  #     - net.ipv4.ip_forward=1
-  #     - net.ipv4.conf.all.src_valid_mark=1
-  #     - net.ipv6.conf.all.forwarding=1
-  #   volumes:
-  #     - tailscale-config:/var/lib/tailscale
-  #     - /dev/net/tun:/dev/net/tun
-  #   environment:
-  #     - ACCEPTDNS=true
-  #     - ACCEPTROUTES=true
-  #     - AUTHKEY=${TAILSCALE_AUTHKEY:?err}
+  tailscale:
+    image: jauderho/tailscale:latest
+    command:
+      - tailcaled
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv4.ip_forward=1
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.all.forwarding=1
+    volumes:
+      - tailscale-config:/var/lib/tailscale
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - ACCEPTDNS=true
+      - ACCEPTROUTES=true
+      - AUTHKEY=${TAILSCALE_AUTHKEY:?err}
 
 volumes:
   k3s-server: {}
   tailscale-config: {}
+  kubeconfig: {}
