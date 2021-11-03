@@ -49,7 +49,7 @@ services:
   tailscale:
     image: ghcr.io/jauderho/tailscale:v1.16.2
     command:
-      - tailcaled
+      - /usr/local/bin/tailcaled
     cap_add:
       - NET_ADMIN
     # sysctls:
