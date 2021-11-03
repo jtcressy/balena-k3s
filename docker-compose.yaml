@@ -67,8 +67,6 @@ services:
       - tailscale-config:/var/lib/tailscale
     devices:
       - /dev/net/tun:/dev/net/tun
-    environment:
-      - TAILSCALE_KEY=${TAILSCALE_AUTHKEY:?err}
 
 volumes:
   k3s-server: {}
