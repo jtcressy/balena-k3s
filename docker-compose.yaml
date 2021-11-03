@@ -1,7 +1,7 @@
 # to run define K3S_TOKEN, K3S_VERSION is optional, eg:
 #   K3S_TOKEN=${RANDOM}${RANDOM}${RANDOM} docker-compose up
 
-version: '3'
+version: '2'
 services:
 
   server:
