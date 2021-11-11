@@ -9,16 +9,16 @@ services:
     entrypoint:
     - sh
     - -c
-    - |
-      if [[ "$RESIN_DEVICE_NAME_AT_INIT" == *"master-0"* ]]; then unset K3S_URL; export K3S_CLUSTER_INIT=1; fi && \
-      export TAILSCALE_IP=$(ip addr show tailscale0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1) && \
-      export K3S_NODE_NAME="balena-${RESIN_APP_NAME}-${RESIN_DEVICE_NAME_AT_INIT}" && \
-      k3s $(if [[ "$RESIN_DEVICE_NAME_AT_INIT" == *"master"* ]]; then echo "server"; else echo "agent"; fi) \
-      --tls-san "$TAILSCALE_IP","$K3S_NODE_NAME" \
-      --flannel-iface tailscale0 \
-      --advertise-address $TAILSCALE_IP \
-      --node-ip $TAILSCALE_IP \
-      --node-external-ip $TAILSCALE_IP \
+    - >
+      if [[ "$RESIN_DEVICE_NAME_AT_INIT" == *"master-0"* ]]; then unset K3S_URL; export K3S_CLUSTER_INIT=1; fi &&
+      export TAILSCALE_IP=$(ip addr show tailscale0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1) &&
+      export K3S_NODE_NAME="balena-${RESIN_APP_NAME}-${RESIN_DEVICE_NAME_AT_INIT}" &&
+      k3s $(if [[ "$RESIN_DEVICE_NAME_AT_INIT" == *"master"* ]]; then echo "server"; else echo "agent"; fi)
+      --tls-san $TAILSCALE_IP
+      --flannel-iface tailscale0
+      --advertise-address $TAILSCALE_IP
+      --node-ip $TAILSCALE_IP
+      --node-external-ip $TAILSCALE_IP
       --disable traefik,servicelb
     network_mode: host
     # tmpfs:
