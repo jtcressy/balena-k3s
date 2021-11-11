@@ -10,6 +10,7 @@ services:
     - sh
     - -c
     - |
+      if [[ "$RESIN_DEVICE_NAME_AT_INIT" == *"master-0"* ]]; then unset K3S_URL; export K3S_CLUSTER_INIT=1; fi && \
       k3s $(if [[ "$RESIN_DEVICE_NAME_AT_INIT" == *"master"* ]]; then echo "server"; else echo "agent"; fi) \
       --node-name "balena-${RESIN_APP_NAME}-${RESIN_DEVICE_NAME_AT_INIT}" \
       --flannel-iface tailscale0 \
