@@ -11,12 +11,13 @@ services:
     - -c
     - |
       if [[ "$RESIN_DEVICE_NAME_AT_INIT" == *"master-0"* ]]; then unset K3S_URL; export K3S_CLUSTER_INIT=1; fi && \
+      export TAILSCALE_IP=$(ip -f inet addr show tailscale0 | grep -Po 'inet \K[\d.]+') && \
       k3s $(if [[ "$RESIN_DEVICE_NAME_AT_INIT" == *"master"* ]]; then echo "server"; else echo "agent"; fi) \
       --node-name "balena-${RESIN_APP_NAME}-${RESIN_DEVICE_NAME_AT_INIT}" \
       --flannel-iface tailscale0 \
-      --advertise-address $(ip addr show tailscale0 | grep "inet " | awk '{print $2}') \
-      --node-ip $(ip addr show tailscale0 | grep "inet " | awk '{print $2}') \
-      --node-external-ip $(ip addr show tailscale0 | grep "inet " | awk '{print $2}') \
+      --advertise-address $TAILSCALE_IP \
+      --node-ip $TAILSCALE_IP \
+      --node-external-ip $TAILSCALE_IP \
       --docker \
       --disable traefik,servicelb
     network_mode: host
