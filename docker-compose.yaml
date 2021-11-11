@@ -18,7 +18,6 @@ services:
       --advertise-address $TAILSCALE_IP \
       --node-ip $TAILSCALE_IP \
       --node-external-ip $TAILSCALE_IP \
-      --docker \
       --container-runtime-endpoint $DOCKER_HOST \
       --disable traefik,servicelb
     network_mode: host
